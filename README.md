@@ -1,1 +1,2 @@
-# COMS_311_PA2
+Chase Zey
+Brett Wilhelm

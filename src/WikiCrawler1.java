@@ -137,25 +137,26 @@ public class WikiCrawler1 {
 			input = s.next();
 			topicsFlag = 0;
 			
-			for(String t: topics) {
-				if(!input.toLowerCase().contains(t)) {
-					topicsFlag = 1;
-					break;
-				}
-			}
-			
-			if((input.toLowerCase()).contains(CONTAINS_CHECK) && !((input.toLowerCase()).contains(NOT_CONTAINED[0])) && !((input.toLowerCase()).contains(NOT_CONTAINED[1])) && (input.charAt(1)=='w') && topicsFlag == 0) {	// Ensures properly formatted links get through
+			if((input.toLowerCase()).contains(CONTAINS_CHECK) && !((input.toLowerCase()).contains(NOT_CONTAINED[0])) && !((input.toLowerCase()).contains(NOT_CONTAINED[1])) && (input.charAt(1)=='w')) {	// Ensures properly formatted links get through
 				
-				
-				if(!(seedConnectionList.contains(input)) && counter < max && !(toggleCounter)) {
-					totalConnectionList.add(input);
-					seedConnectionList.add(input);
-					counter++;
+				for(String t: topics) {
+					if(!(input.toLowerCase().contains(t))) {
+						topicsFlag = 1;
+						break;
+					}
 				}
 				
-				else if(seedConnectionList.contains(input) && !(neighborConnectionList.contains(input))  && toggleCounter && !(input.equals(curUrl))) {
-					totalConnectionList.add(input);
-					neighborConnectionList.add(input);
+				if(topicsFlag == 0) {
+					if(!(seedConnectionList.contains(input)) && counter < max && !(toggleCounter)) {
+						totalConnectionList.add(input);
+						seedConnectionList.add(input);
+						counter++;
+					}
+					
+					else if(seedConnectionList.contains(input) && !(neighborConnectionList.contains(input))  && toggleCounter && !(input.equals(curUrl))) {
+						totalConnectionList.add(input);
+						neighborConnectionList.add(input);
+					}
 				}
 			}
 		}

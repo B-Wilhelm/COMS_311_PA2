@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -95,6 +96,42 @@ public class AdjacencyList1 {
 			return 0;
 		}
 		return adj.get(node).size();
+	}
+	
+	/**
+	 * 
+	 * @param u
+	 * @param v
+	 * @return
+	 */
+	public ArrayList<String> bfsPath(String u, String v)
+	{
+		// TODO
+		
+		return null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int diameter()
+	{
+		// TODO
+		
+		return 0;
+	}
+
+	/**
+	 * 
+	 * @param v
+	 * @return
+	 */
+	public int centrality(String v)
+	{
+		// TODO
+		
+		return 0;
 	}
 	
 	/**

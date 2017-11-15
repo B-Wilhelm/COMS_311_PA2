@@ -97,19 +97,6 @@ public class AdjacencyList1 {
 		}
 		return adj.get(node).size();
 	}
-	
-	/**
-	 * 
-	 * @param u
-	 * @param v
-	 * @return
-	 */
-	public ArrayList<String> bfsPath(String u, String v)
-	{
-		// TODO
-		
-		return null;
-	}
 
 	/**
 	 * 

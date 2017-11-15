@@ -2,123 +2,257 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 /**
- * 
  * @author Brett Wilhelm
  * @author Zach Johnson
- *
  */
 
 public class WikiCrawler1 {
 	static final String BASE_URL = "https://en.wikipedia.org";
-	private String seedUrl;
-	private int max, min = 0;
-	private Scanner s;	// Scanner for entire source code, Scanner for individual links
-	private String source, scannedText, progSource;
+	private String seedUrl, fileName, curUrl;
+	private int max;
 	private static final String CONTAINS_CHECK = "/wiki/";
 	private static final String[] NOT_CONTAINED = {":", "#"};
+	private Queue<String> queue;	//needed for BFS change name from test
+	private int counter;
+	private Map<String, Boolean> isTraveled;
+	public ArrayList<String> seedConnectionList, printList;
+	private int requestCount = 0;
+	private boolean toggleCounter;
+	private AdjacencyList1 graph; // the graph our crawler will create
 	
-	
-	/*
+	/**
+	 * Constructor
 	 * @param seedURL String representing relative address of the Seed URL
 	 * @param max Integer primitive representing the max number of pages to crawl
 	 * @param fileName String representing the name of the file that the graph will be written to
 	 */
-	public WikiCrawler1(String seedUrl, int max, String fileName) throws IOException {
+	public WikiCrawler1(String seedUrl, int max, String fileName) {
 		this.seedUrl = seedUrl;
 		this.max = max;
+		this.fileName = fileName;
 		
-		source = getPageSource(seedUrl);
+		seedConnectionList = new ArrayList<String>();
+		seedConnectionList.add(seedUrl);
+		graph = new AdjacencyList1(max);
+	}
+	
+//	/**
+//	 * Extracts links from graph that was pulled from a wiki page in addToGraph()
+//	 * @param doc String that represents the source code of an html page
+//	 * @return temp ArrayList filled with URLs (Strings) that were pulled from a wiki page
+//	 */
+//	public ArrayList<String> extractLinks(String doc) {
+//		
+//		
+// 		ArrayList<String> temp = new ArrayList<String>(graph.getNeighbors(doc));
+//		return temp;
+//	}
+	
+	/**
+	 * Initiates the bfs that fills the graph with data from all wiki pages
+	 */
+	public void crawl() {
+		toggleCounter = false;
+//		counter = 0;
+		counter = 1;
+		bfs(seedUrl);
+		writeToFile(getPrintData());
+	}
+	
+	//////////////////////////////////////////
+	
+	/**
+	 * Sets the value of a key in the isTraveled map to true
+	 * @param v String that represents the key in the isTraveled Map
+	 */
+	private void setIsTraveled(String v) {
+		isTraveled.replace(v, true);
 	}
 	
 	
-	/*
-	 * @param doc String that represents the source code of an html page
+	/**
+	 * Uses bfsearch to add links from wiki pages to a graph
+	 * @param url String that represents the URL of the first link that you send in to the constructor
 	 */
-	
-	public ArrayList<String> extractLinks(String doc) {
-		ArrayList<String> newList = new ArrayList<String>();
-		scannedText = "";
+	private void bfs(String url) {
+		ArrayList<String> strList;
+		LinkedList<String> neighbours;
+		queue = new LinkedList<String>();
+		isTraveled = new HashMap<String, Boolean>();
+		Iterator<String> iter;
+		printList = new ArrayList<String>();
 		
-		s = new Scanner(doc);	// Scanner for whole html source code
-		s.useDelimiter("<p>|<P>");
+		graph.addNode(url);
+		setIsTraveled(url);
+		queue.add(url);
 		
-		if(s.hasNext()) {			
-			s.next();	// Skips to just after first instance of <p> or <P>
+		while(queue.size() != 0) {
+			curUrl = queue.remove();
+			graph.addNode(curUrl);
+			strList = extractLinks(getPageSource(curUrl));
+			
+			for(int i = 0; i < strList.size(); i++) {
+				graph.addNode(strList.get(i));
+				graph.addEdge(curUrl, strList.get(i));
+				isTraveled.putIfAbsent(strList.get(i), false);
+				String dupe = curUrl + "\t" + strList.get(i);
+				if(!printList.contains(dupe))
+					printList.add(dupe);
+			}
+			
+//			System.out.println("\n" + curUrl);
+//			System.out.println(graph.getNeighbors(curUrl).toString());
+			neighbours = graph.getNeighbors(curUrl);
+			iter = neighbours.listIterator();
+			
+			while(iter.hasNext()) {
+				String cur = iter.next();
+				
+				if(!(isTraveled.get(cur))) {
+					setIsTraveled(cur);
+					queue.add(cur);
+				}
+			}
 		}
+	}
+	
+	/**
+	 * Finds links in webpage source code, checks them for validity and returns them
+	 * @param doc Represents the source code of a webpage
+	 * @param url Represents the url given to the constructor
+	 * @return The list of valid links found on a page
+	 */
+	public ArrayList<String> extractLinks(String doc) {
 		
+		ArrayList<String> totalConnectionList = new ArrayList<String>();
+		ArrayList<String> neighborConnectionList = new ArrayList<String>();
+		String input = "";
+		Scanner s = new Scanner(doc);	// Scanner for whole html source code
+		
+		s.useDelimiter("<p>|<P>");
+		if(s.hasNext()) { s.next(); }	// Skips to just after first instance of <p> or <P>
 		s.useDelimiter("href=\"|\"");
 		
 		while(s.hasNext()) {
-			scannedText = s.next();
+			input = s.next();
 			
-			if((scannedText.toLowerCase()).contains(CONTAINS_CHECK) && !((scannedText.toLowerCase()).contains(NOT_CONTAINED[0])) && !((scannedText.toLowerCase()).contains(NOT_CONTAINED[1])) && (scannedText.charAt(1)=='w')) {	// Ensures properly formatted links get through
-				if((min < max) && !(newList.contains(scannedText)) && !(scannedText.equals(seedUrl))) {	// Ensures links aren't duplicates or self-loops and stops collecting at "max" value
-					System.out.println(seedUrl + " : " + scannedText);
-					newList.add(scannedText);
-					min++;
+			if((input.toLowerCase()).contains(CONTAINS_CHECK) && !((input.toLowerCase()).contains(NOT_CONTAINED[0])) && !((input.toLowerCase()).contains(NOT_CONTAINED[1])) && (input.charAt(1)=='w')) {	// Ensures properly formatted links get through
+
+				
+				if(!(seedConnectionList.contains(input)) && counter < max && !(toggleCounter)) {
+					totalConnectionList.add(input);
+					seedConnectionList.add(input);
+					counter++;
+				}
+				
+				else if(seedConnectionList.contains(input) && !(neighborConnectionList.contains(input))  && toggleCounter && !(input.equals(curUrl))) {
+					totalConnectionList.add(input);
+					neighborConnectionList.add(input);
 				}
 			}
 		}
 		
-		return newList;
+		if(counter >= max)	toggleCounter = true;
+		
+		s.close();
+		return (totalConnectionList);
 	}
 	
-	
-	public void crawl() {
-		
-	}
-	
-	
-	/////////////////////////////////////////
-	
-	
-	public String getPageSource(String urlS) {	// Takes in relative URL
-		progSource = "";
-		
+	/**
+	 * Returns the source code of a webpage
+	 * @param urlS Relative URL of the wiki page that needs to have its source code grabbed
+	 * @return String that contains the page's full source code
+	 */
+	public String getPageSource(String urlS) {
+		String progSource = "";
 		URL url;
 	    InputStream input = null;
 	    BufferedReader br = null;
 	    String line;
 
 	    try {
-	        url = new URL(BASE_URL + urlS);
+	    	if(requestCount > 49) {
+	    		requestCount = 0;
+	    		TimeUnit.SECONDS.sleep(3);	// Waits for 3 seconds after every 50 requests
+	    	}
+	    	
+	        url = new URL(BASE_URL + urlS);	        
 	        input = url.openStream();  // throws an IOException
+	        requestCount++;
 	        br = new BufferedReader(new InputStreamReader(input));
-
 	        if ((line = br.readLine()) != null) {
 	        	progSource += line;
 	        }
-	        
 	        while ((line = br.readLine()) != null) {
 	            progSource += "\n" + line;
 	        }
-	        
 	        return progSource;
+	        
 	    } catch (MalformedURLException m) {
 	         m.printStackTrace();
 	    } catch (IOException i) {
 	         i.printStackTrace();
-	    } finally {
+	    } catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
 	        try {
 	            if (input != null) {
 	            	input.close();
-//	            	br.close();
 	            }
 	        } catch (IOException i) {
 	            // all good
 	        }
 	    }
+		return null;
+	}
+	
+	/**
+	 * Writes the graph to a file
+	 * @param data String representing the graph to be written to the file
+	 */
+	public void writeToFile(String data) {
+		try{
+		    PrintWriter writer = new PrintWriter(fileName, "UTF-8");
+		    writer.print(data);
+		    writer.close();
+		} catch (IOException e) {
+		   // do something
+		}
+	}
+	
+	/**
+	 * Returns String of the graph
+	 * @return String representation of the graph that will eventually be written to a file
+	 */
+	public String getPrintData() {
+		String data = max + "\n";
 		
-		return "";
+		System.out.println(printList.size());
+		
+		for(int i = 0; i < printList.size(); i++) {
+			data += printList.get(i);
+			if(i < printList.size()-1) {
+				data += "\n";
+			}
+		}
+		
+		return data;
 	}
 	
 	public String getSource() {
-		return source;
+		return seedUrl;
 	}
 }

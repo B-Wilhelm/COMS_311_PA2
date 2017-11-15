@@ -6,9 +6,11 @@ public class testDrive {
 	public static void main(String[] args) throws IOException {
 		long time_start, time;
 		ArrayList<String> topics = new ArrayList<String> ();
-//		topics.add("Iowa");
+		topics.add("Iowa State");
+		topics.add("Cyclones");
+//		topics.add("geynfdskjfsdf");
 		
-		WikiCrawler1 wc = new WikiCrawler1("/wiki/Complexity_Theory", 200, topics, "test.txt");
+		WikiCrawler1 wc = new WikiCrawler1("/wiki/Iowa_State_University", 20, topics, "test.txt");
 		
 		time_start = System.nanoTime();
 		wc.crawl();
@@ -17,7 +19,7 @@ public class testDrive {
 		System.out.println("Max Vertices: " + wc.getGraph().getMaxVertices());
 		System.out.println("Time taken to execute crawl(): " + properFormat(time));
 		
-//		System.out.println(wc.getPrintData());
+		System.out.println(wc.getPrintData());
 		
 //		System.out.println(wc.extractLinks(wc.getPageSource(wc.getSource())));
 		

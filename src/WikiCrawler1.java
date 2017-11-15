@@ -126,27 +126,38 @@ public class WikiCrawler1 {
 		ArrayList<String> totalConnectionList = new ArrayList<String>();
 		ArrayList<String> neighborConnectionList = new ArrayList<String>();
 		String input = "";
-		int topicsFlag;
-		Scanner s = new Scanner(doc);	// Scanner for whole html source code
+		int topicsFlag = 0;
+		Scanner s = new Scanner(doc);
+		s.useDelimiter("<p>|<P>");
+		if(s.hasNext()) { s.next(); }
 		
+		while(s.hasNext()) {
+			input += s.next();
+		}
+
+		if(curUrl.equals(seedUrl)) {
+//			System.out.println(curUrl + "\n\n" + input + "\n\nInput End\n");
+		}
+		
+		for(String t: topics) {
+			if(!(input.toLowerCase().contains(t.toLowerCase()))) {
+				topicsFlag = 1;
+				break;
+			}
+		}
+		s.close();
+		
+		s = new Scanner(doc);
 		s.useDelimiter("<p>|<P>");
 		if(s.hasNext()) { s.next(); }	// Skips to just after first instance of <p> or <P>
 		s.useDelimiter("href=\"|\"");
 		
-		while(s.hasNext()) {
-			input = s.next();
-			topicsFlag = 0;
-			
-			if((input.toLowerCase()).contains(CONTAINS_CHECK) && !((input.toLowerCase()).contains(NOT_CONTAINED[0])) && !((input.toLowerCase()).contains(NOT_CONTAINED[1])) && (input.charAt(1)=='w')) {	// Ensures properly formatted links get through
+		if(topicsFlag == 0) {
+			while(s.hasNext()) {
+				input = s.next();
 				
-				for(String t: topics) {
-					if(!(input.toLowerCase().contains(t.toLowerCase()))) {
-						topicsFlag = 1;
-						break;
-					}
-				}
-				
-				if(topicsFlag == 0) {
+				if((input.toLowerCase()).contains(CONTAINS_CHECK) && !((input.toLowerCase()).contains(NOT_CONTAINED[0])) && !((input.toLowerCase()).contains(NOT_CONTAINED[1])) && (input.charAt(1)=='w')) {	// Ensures properly formatted links get through
+					
 					if(!(seedConnectionList.contains(input)) && counter < max && !(toggleCounter)) {
 						totalConnectionList.add(input);
 						seedConnectionList.add(input);
@@ -160,10 +171,10 @@ public class WikiCrawler1 {
 				}
 			}
 		}
+			
+		s.close();
 		
 		if(counter >= max)	toggleCounter = true;
-		
-		s.close();
 		return (totalConnectionList);
 	}
 	

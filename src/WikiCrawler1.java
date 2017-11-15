@@ -139,7 +139,7 @@ public class WikiCrawler1 {
 			if((input.toLowerCase()).contains(CONTAINS_CHECK) && !((input.toLowerCase()).contains(NOT_CONTAINED[0])) && !((input.toLowerCase()).contains(NOT_CONTAINED[1])) && (input.charAt(1)=='w')) {	// Ensures properly formatted links get through
 				
 				for(String t: topics) {
-					if(!(input.toLowerCase().contains(t))) {
+					if(!(input.toLowerCase().contains(t.toLowerCase()))) {
 						topicsFlag = 1;
 						break;
 					}

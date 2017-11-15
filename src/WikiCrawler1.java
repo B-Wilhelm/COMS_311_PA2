@@ -197,20 +197,15 @@ public class WikiCrawler1 {
 	        }
 	        return progSource;
 	        
-	    } catch (MalformedURLException m) {
-	         m.printStackTrace();
-	    } catch (IOException i) {
-	         i.printStackTrace();
-	    } catch (InterruptedException e) {
-			e.printStackTrace();
-		} finally {
+	    }
+	    catch (MalformedURLException m)	{ m.printStackTrace(); }
+	    catch (IOException i) 			{ i.printStackTrace(); }
+	    catch (InterruptedException e) 	{ e.printStackTrace(); }
+		finally {
 	        try {
-	            if (input != null) {
-	            	input.close();
-	            }
-	        } catch (IOException i) {
-	            // all good
+	            if (input != null)	input.close();
 	        }
+	        catch (IOException i) { }
 	    }
 		return null;
 	}

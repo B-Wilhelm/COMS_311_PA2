@@ -23,7 +23,7 @@ public class GraphProcessor1 {
 	private Iterator<String> it;//used to iterate over neighbors
 	private String SCC = "";//String holding Strongly connected components, used so that the different SCC methods have a consistant understand of SCC
 	private int numSCC = 0;
-	public String BFS = "";//Used to hold the DFS from its helper method
+	private String BFS = "";//Used to hold the DFS from its helper method
 	
 	/**
 	 * Constructs a graph based on the given filename and initializes the isTraveled map for either DFS or SCC usage
@@ -42,6 +42,7 @@ public class GraphProcessor1 {
 		
 		computeSCCs();
 	}
+	
 	/**
 	 * @param v String holding the vertex 
 	 * @return Returns the number of edges originating from the given vertex
@@ -49,6 +50,7 @@ public class GraphProcessor1 {
 	public int outDegree(String v) {
 		return graph.getOutDegree(v);
 	}
+	
 	/**
 	 * I use the SCC string and make Arraylists out of that string to handle an unknown number of arrayLists after each list is created i check if both nodes are within that list
 	 * @param u String first component
@@ -85,27 +87,29 @@ public class GraphProcessor1 {
 	 * @param v a vertex within a Strongly connected Component
 	 * @return an ArrayList containing all vertices that share a Strongly Connected Component with v
 	 */
-	public ArrayList<String> componentVerticies(String v) {
-		//computeSCCs(); done within the constructor
+	public ArrayList<String> componentVerticies(String v) {		//computeSCCs(); done within the constructor
+		
 		ArrayList<String> SCCList = new ArrayList<String>();
 		Scanner s1 = new Scanner(SCC);
 		String line;
+		
 		while(s1.hasNextLine()) {
 			line = s1.nextLine();
 			Scanner s2 = new Scanner(line);
 			SCCList = new ArrayList<String>();
-			while(s2.hasNext())
-			{
+			
+			while(s2.hasNext()) {
 				SCCList.add(s2.next());
 			}
-			if(SCCList.contains(v))
-			{
+			
+			if(SCCList.contains(v)) {
 				s1.close();
 				s2.close();
 				return SCCList;
 			}	
 			s2.close();
 		}
+		
 		s1.close();
 		return SCCList;
 	}

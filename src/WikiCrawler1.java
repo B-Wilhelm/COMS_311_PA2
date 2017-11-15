@@ -231,7 +231,7 @@ public class WikiCrawler1 {
 	public String getPrintData() {
 		String data = max + "\n";
 		
-		System.out.println(printList.size());
+//		System.out.println(printList.size());
 		
 		for(int i = 0; i < printList.size(); i++) {
 			data += printList.get(i);
@@ -245,5 +245,9 @@ public class WikiCrawler1 {
 	
 	public String getSource() {
 		return seedUrl;
+	}
+	
+	public AdjacencyList1 getGraph() {
+		return graph;
 	}
 }

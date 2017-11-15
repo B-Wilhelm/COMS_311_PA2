@@ -20,11 +20,20 @@ public class GraphProcessor
 	// other member fields and methods
 
 	// NOTE: graphData should be an absolute file path
+	/**
+	 * 
+	 * @param graphData
+	 */
 	public GraphProcessor(String graphData)
 	{
 		// TODO
 	}
 
+	/**
+	 * 
+	 * @param v
+	 * @return
+	 */
 	public int outDegree(String v)
 	{
 		// TODO
@@ -32,6 +41,12 @@ public class GraphProcessor
 		return 0;
 	}
 
+	/**
+	 * 
+	 * @param u
+	 * @param v
+	 * @return
+	 */
 	public ArrayList<String> bfsPath(String u, String v)
 	{
 		// TODO
@@ -39,6 +54,10 @@ public class GraphProcessor
 		return null;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int diameter()
 	{
 		// TODO
@@ -46,6 +65,11 @@ public class GraphProcessor
 		return 0;
 	}
 
+	/**
+	 * 
+	 * @param v
+	 * @return
+	 */
 	public int centrality(String v)
 	{
 		// TODO

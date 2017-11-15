@@ -50,24 +50,11 @@ public class WikiCrawler1 {
 		graph = new AdjacencyList1(max);
 	}
 	
-//	/**
-//	 * Extracts links from graph that was pulled from a wiki page in addToGraph()
-//	 * @param doc String that represents the source code of an html page
-//	 * @return temp ArrayList filled with URLs (Strings) that were pulled from a wiki page
-//	 */
-//	public ArrayList<String> extractLinks(String doc) {
-//		
-//		
-// 		ArrayList<String> temp = new ArrayList<String>(graph.getNeighbors(doc));
-//		return temp;
-//	}
-	
 	/**
 	 * Initiates the bfs that fills the graph with data from all wiki pages
 	 */
 	public void crawl() {
 		toggleCounter = false;
-//		counter = 0;
 		counter = 1;
 		bfs(seedUrl);
 		writeToFile(getPrintData());
@@ -114,8 +101,6 @@ public class WikiCrawler1 {
 					printList.add(dupe);
 			}
 			
-//			System.out.println("\n" + curUrl);
-//			System.out.println(graph.getNeighbors(curUrl).toString());
 			neighbours = graph.getNeighbors(curUrl);
 			iter = neighbours.listIterator();
 			

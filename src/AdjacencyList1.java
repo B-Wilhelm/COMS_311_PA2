@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -102,20 +101,23 @@ public class AdjacencyList1 {
 	 * 
 	 * @return
 	 */
-	public int diameter()
-	{
-		// TODO
-		int i, k;
-		int diameter;
-		
+
+//	public int diameter()
+//	{
+//		// TODO
+//		int i, j;
+//		int k;
+//		int through_k;
+//		
 //		for(k = 1; k <= adj.size(); k++)
 //			for(i = 1; i <= adj.size(); i++)
 //				for(j = 1; j <= adj.size(); j++)
-//					through_k = 1 + 1;
-//					if(through_k < 2);
+//					through_k = adj.get("weight from i to k") + adj.get("weight from k to j");
+//					if(through_k < adj.get("weight from i to j");
 //						adj.get(("weight from i to j")) = through_k;
-		return 0;
-	}
+//		return 0;
+//	}
+
 
 	/**
 	 * 

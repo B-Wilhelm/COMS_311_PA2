@@ -14,6 +14,9 @@ public class testDrive {
 		wc.crawl();
 		time = System.nanoTime() - time_start;
 		
+		System.out.println("Max Vertices: " + wc.getGraph().getMaxVertices());
+		System.out.println("Time taken to execute crawl(): " + properFormat(time));
+		
 //		System.out.println(wc.getPrintData());
 		
 //		System.out.println(wc.extractLinks(wc.getPageSource(wc.getSource())));
@@ -29,9 +32,6 @@ public class testDrive {
 //		for(int i = 0; i < wc.seedConnectionList.size(); i++) {
 //			System.out.println(wc.seedConnectionList.get(i));
 //		}
-		
-		System.out.println("Max Vertices: " + wc.getGraph());
-		System.out.println("Time taken to execute crawl(): " + properFormat(time));
 	}
 	
 	private static String properFormat(long time) {

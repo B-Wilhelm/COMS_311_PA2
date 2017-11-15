@@ -19,12 +19,24 @@ public class WikiCrawler
 {
 	static final String BASE_URL = "https://en.wikipedia.org";
 
+	/**
+	 * 
+	 * @param seedUrl
+	 * @param max
+	 * @param topics
+	 * @param fileName
+	 */
 	public WikiCrawler(String seedUrl, int max, ArrayList<String> topics, String fileName)
 	{
 		// TODO
 	}
 
 	// NOTE: extractLinks takes the source HTML code, NOT a URL
+	/**
+	 * 
+	 * @param doc
+	 * @return
+	 */
 	public ArrayList<String> extractLinks(String doc)
 	{
 		// TODO
@@ -32,6 +44,9 @@ public class WikiCrawler
 		return null;
 	}
 
+	/**
+	 * 
+	 */
 	public void crawl()
 	{
 		// TODO

@@ -126,6 +126,7 @@ public class WikiCrawler1 {
 		ArrayList<String> totalConnectionList = new ArrayList<String>();
 		ArrayList<String> neighborConnectionList = new ArrayList<String>();
 		String input = "";
+		int topicsFlag;
 		Scanner s = new Scanner(doc);	// Scanner for whole html source code
 		
 		s.useDelimiter("<p>|<P>");
@@ -134,9 +135,17 @@ public class WikiCrawler1 {
 		
 		while(s.hasNext()) {
 			input = s.next();
+			topicsFlag = 0;
 			
-			if((input.toLowerCase()).contains(CONTAINS_CHECK) && !((input.toLowerCase()).contains(NOT_CONTAINED[0])) && !((input.toLowerCase()).contains(NOT_CONTAINED[1])) && (input.charAt(1)=='w')) {	// Ensures properly formatted links get through
-
+			for(String t: topics) {
+				if(!input.toLowerCase().contains(t)) {
+					topicsFlag = 1;
+					break;
+				}
+			}
+			
+			if((input.toLowerCase()).contains(CONTAINS_CHECK) && !((input.toLowerCase()).contains(NOT_CONTAINED[0])) && !((input.toLowerCase()).contains(NOT_CONTAINED[1])) && (input.charAt(1)=='w') && topicsFlag == 0) {	// Ensures properly formatted links get through
+				
 				
 				if(!(seedConnectionList.contains(input)) && counter < max && !(toggleCounter)) {
 					totalConnectionList.add(input);

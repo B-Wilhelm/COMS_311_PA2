@@ -105,16 +105,15 @@ public class AdjacencyList1 {
 	public int diameter()
 	{
 		// TODO
-		int i, j;
-		int k;
-		int through_k;
+		int i, k;
+		int diameter;
 		
-		for(k = 1; k <= adj.size(); k++)
-			for(i = 1; i <= adj.size(); i++)
-				for(j = 1; j <= adj.size(); j++)
-					through_k = adj.get("weight from i to k") + adj.get("weight from k to j");
-					if(through_k < adj.get("weight from i to j");
-						adj.get(("weight from i to j")) = through_k;
+//		for(k = 1; k <= adj.size(); k++)
+//			for(i = 1; i <= adj.size(); i++)
+//				for(j = 1; j <= adj.size(); j++)
+//					through_k = 1 + 1;
+//					if(through_k < 2);
+//						adj.get(("weight from i to j")) = through_k;
 		return 0;
 	}
 
@@ -141,6 +140,14 @@ public class AdjacencyList1 {
 	 * @return a set of all String Vertices
 	 */
 	public Set<String> getKeys() { return adj.keySet(); }
+
+	public int size() {
+		return adj.size();
+	}
+
+	public LinkedList<String> get(int k) {
+		return adj.get(k);
+	}
 	
 	
 }

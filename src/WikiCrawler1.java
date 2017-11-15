@@ -28,7 +28,7 @@ public class WikiCrawler1 {
 	private Queue<String> queue;	//needed for BFS change name from test
 	private int counter;
 	private Map<String, Boolean> isTraveled;
-	public ArrayList<String> seedConnectionList, printList;
+	public ArrayList<String> seedConnectionList, printList, topics;
 	private int requestCount = 0;
 	private boolean toggleCounter;
 	private AdjacencyList1 graph; // the graph our crawler will create
@@ -39,9 +39,10 @@ public class WikiCrawler1 {
 	 * @param max Integer primitive representing the max number of pages to crawl
 	 * @param fileName String representing the name of the file that the graph will be written to
 	 */
-	public WikiCrawler1(String seedUrl, int max, String fileName) {
+	public WikiCrawler1(String seedUrl, int max, ArrayList<String> topics, String fileName) {
 		this.seedUrl = seedUrl;
 		this.max = max;
+		this.topics = topics;
 		this.fileName = fileName;
 		
 		seedConnectionList = new ArrayList<String>();

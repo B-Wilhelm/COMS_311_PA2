@@ -4,7 +4,11 @@ import java.util.ArrayList;
 public class testDrive {
 
 	public static void main(String[] args) throws IOException {
-		WikiCrawler1 wc = new WikiCrawler1("/wiki/Iowa_State_University", 20, "test.txt");
+		ArrayList<String> topics = new ArrayList<String> ();
+		topics.add("Iowa State");
+		topics.add("Ames");
+		
+		WikiCrawler1 wc = new WikiCrawler1("/wiki/Iowa_State_University", 20, topics, "test.txt");
 		
 		wc.crawl();
 //		System.out.println(wc.getPrintData());

@@ -79,6 +79,7 @@ public class GraphProcessor1 {
 		s1.close();
 		return false;
 	}
+	
 	/**
 	 * 
 	 * @param v a vertex within a Strongly connected Component
@@ -108,33 +109,7 @@ public class GraphProcessor1 {
 		s1.close();
 		return SCCList;
 	}
-	/**
-	 * 
-	 * @return the number of vertices within in the largest Strongly Connected Component
-	 */
-	public int largestComponent() {
-		//computeSCCs();
-		ArrayList<String> SCCList;
-		Scanner s1 = new Scanner(SCC);
-		String line;
-		int size = 0;
-		
-		while(s1.hasNextLine()) {
-			line = s1.nextLine();
-			Scanner s2 = new Scanner(line);
-			SCCList = new ArrayList<String>();
-			while(s2.hasNext())
-			{
-				SCCList.add(s2.next());
-			}
-			if(SCCList.size() >= size){
-				size = SCCList.size();
-			}
-			s2.close();
-		}
-		s1.close();
-		return size;
-	}
+
 	/**
 	 * 
 	 * @return the number of Strongly Connected Components within the graph created by the constructor
@@ -142,6 +117,7 @@ public class GraphProcessor1 {
 	public int numComponents() {
 		return numSCC;
 	}
+	
 	/**
 	 * 
 	 * @param u String representing the starting node of the graph

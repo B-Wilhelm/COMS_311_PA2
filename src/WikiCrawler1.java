@@ -58,6 +58,7 @@ public class WikiCrawler1 {
 		counter = 1;
 		bfs(seedUrl);
 		writeToFile(getPrintData());
+		
 	}
 	
 	//////////////////////////////////////////

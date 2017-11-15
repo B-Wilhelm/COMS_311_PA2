@@ -8,7 +8,12 @@ public class testDrive {
 		ArrayList<String> topics = new ArrayList<String> ();
 //		topics.add("Iowa");
 		
-		WikiCrawler1 wc = new WikiCrawler1("/wiki/Complexity_Theory", 200, topics, "test.txt");
+		
+		WikiCrawler1 wc = new WikiCrawler1("/wiki/Iowa_State_University", 20, topics, "test.txt");
+		GraphProcessor1 gp = new GraphProcessor1("test.txt");
+		
+		System.out.println("hi");
+		System.out.println("[" + gp.bfsPath("/wiki/Iowa_State_University","/wiki/Flagship") + "]");
 		
 		time_start = System.nanoTime();
 		wc.crawl();

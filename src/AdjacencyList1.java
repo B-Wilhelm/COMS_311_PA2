@@ -145,11 +145,5 @@ public class AdjacencyList1 {
 
 	public int size() {
 		return adj.size();
-	}
-
-	public LinkedList<String> get(int k) {
-		return adj.get(k);
-	}
-	
-	
+	}	
 }

@@ -19,7 +19,7 @@ public class GraphProcessor1 {
 	private LinkedList<String> neighbors;//this is a list holding the adjacent nodes from a given vertex
 	private ArrayList<String> path = new ArrayList<String>();
 	private Iterator<String> it;//used to iterate over neighbors
-	private String BFS = "";//Used to hold the DFS from its helper method
+	private String BFS = "";//Used to hold the BFS from its helper method
 	
 	/**
 	 * Constructs a graph based on the given filename and initializes the isTraveled map for either DFS or SCC usage
@@ -95,6 +95,7 @@ public class GraphProcessor1 {
 		while(queue.size() != 0) {
 			String cur = queue.removeFirst();
 			BFS += cur + " ";
+			System.out.println(BFS+ "\n");
 			
 			neighbors = graph.getNeighbors(cur);
 			it = neighbors.iterator();
@@ -119,6 +120,7 @@ public class GraphProcessor1 {
 		//for(k = 1; k <= graph.size(); k++)
 			//for(i = 1; i <= graph.size(); i++)
 				//bfsPath(graph.get(k), graph.get(i));
+		System.out.println(graph.get(0));
 		return 0;
 	}
 		

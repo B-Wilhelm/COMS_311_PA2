@@ -101,6 +101,7 @@ public class AdjacencyList1 {
 	 * 
 	 * @return
 	 */
+
 //	public int diameter()
 //	{
 //		// TODO
@@ -116,6 +117,7 @@ public class AdjacencyList1 {
 //						adj.get(("weight from i to j")) = through_k;
 //		return 0;
 //	}
+
 
 	/**
 	 * 
@@ -140,6 +142,14 @@ public class AdjacencyList1 {
 	 * @return a set of all String Vertices
 	 */
 	public Set<String> getKeys() { return adj.keySet(); }
+
+	public int size() {
+		return adj.size();
+	}
+
+	public LinkedList<String> get(int k) {
+		return adj.get(k);
+	}
 	
 	
 }

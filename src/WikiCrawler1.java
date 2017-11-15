@@ -16,10 +16,9 @@ import java.util.Scanner;
 
 public class WikiCrawler1 {
 	static final String BASE_URL = "https://en.wikipedia.org";
-	private ArrayList<String> list;
-	private String seedUrl, fileName;
+	private String seedUrl;
 	private int max, min = 0;
-	private Scanner s, l;	// Scanner for entire source code, Scanner for individual links
+	private Scanner s;	// Scanner for entire source code, Scanner for individual links
 	private String source, scannedText, progSource;
 	private static final String CONTAINS_CHECK = "/wiki/";
 	private static final String[] NOT_CONTAINED = {":", "#"};
@@ -33,7 +32,6 @@ public class WikiCrawler1 {
 	public WikiCrawler1(String seedUrl, int max, String fileName) throws IOException {
 		this.seedUrl = seedUrl;
 		this.max = max;
-		this.fileName = fileName;
 		
 		source = getPageSource(seedUrl);
 	}

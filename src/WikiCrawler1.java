@@ -56,7 +56,7 @@ public class WikiCrawler1 {
 	public void crawl() {
 		toggleCounter = false;
 		counter = 1;
-		bfs(seedUrl);
+		addToGraph(seedUrl);
 		writeToFile(getPrintData());
 	}
 	
@@ -70,12 +70,11 @@ public class WikiCrawler1 {
 		isTraveled.replace(v, true);
 	}
 	
-	
 	/**
 	 * Uses bfsearch to add links from wiki pages to a graph
 	 * @param url String that represents the URL of the first link that you send in to the constructor
 	 */
-	private void bfs(String url) {
+	private void addToGraph(String url) {
 		ArrayList<String> strList;
 		LinkedList<String> neighbours;
 		queue = new LinkedList<String>();

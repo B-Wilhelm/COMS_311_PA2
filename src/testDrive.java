@@ -6,25 +6,26 @@ public class testDrive {
 	public static void main(String[] args) throws IOException {
 		long time_start, time;
 		ArrayList<String> topics = new ArrayList<String> ();
-		//topics.add("Iowa State");
-		//topics.add("Cyclones");
-//		topics.add("geynfdskjfsdf");
+		topics.add("Iowa State");
+		topics.add("Cyclones");
+		topics.add("geynfdskjfsdf");
 		
-		WikiCrawler1 wc = new WikiCrawler1("/wiki/Iowa_State_University", 20, topics, "test.txt");
-		GraphProcessor1 gp = new GraphProcessor1("test.txt");
+		WikiCrawler wc = new WikiCrawler("/wiki/Iowa_State_University", 20, topics, "test.txt");
+		GraphProcessor gp = new GraphProcessor("test.txt");
 		
-		System.out.println("hi");
-		System.out.println(gp.bfsPath("/wiki/Story_County,_Iowa","/wiki/Model_farm"));
-		System.out.println(gp.outDegree("/wiki/Story_County,_Iowa"));
+//		System.out.println(gp.bfsPath("/wiki/Story_County,_Iowa","/wiki/Model_farm"));
+//		System.out.println(gp.outDegree("/wiki/Story_County,_Iowa"));
 		
 		time_start = System.nanoTime();
 		wc.crawl();
 		time = System.nanoTime() - time_start;
 		
-		System.out.println("Max Vertices: " + wc.getGraph().getMaxVertices());
 		System.out.println("Time taken to execute crawl(): " + properFormat(time));
 		
 		System.out.println(wc.getPrintData());
+		
+		System.out.println("Diameter: " + gp.diameter());
+		System.out.println("Centrality: " + gp.centrality("/wiki/Iowa"));
 		
 //		System.out.println(wc.extractLinks(wc.getPageSource(wc.getSource())));
 		

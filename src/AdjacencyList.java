@@ -9,20 +9,18 @@ import java.util.Set;
 /**
  * 
  * @author Brett Wilhelm
- * @author Zach Johnson
+ * @author Harry Zey
  *
  */
 
-public class AdjacencyList1 {
-	private Map<String, LinkedList<String>> adj;//the graph itself
-	private final int V;//max number of vertices
+public class AdjacencyList {
+	private Map<String, LinkedList<String>> adj;
+	private final int V;
 	
-	@SuppressWarnings("unused")
 	/**
 	 * Default Constructor unused
-	 * @throws FileNotFoundException
 	 */
-	private AdjacencyList1() throws FileNotFoundException {
+	public AdjacencyList() {
 		V = 0;
 	}
 	
@@ -30,7 +28,7 @@ public class AdjacencyList1 {
 	 * Creates a graph with max number of vertices v
 	 * @param v integer representing the max number of vertices
 	 */
-	public AdjacencyList1(int v) {
+	public AdjacencyList(int v) {
 		adj = new HashMap<String, LinkedList<String>>();
 		V = v;
 	}
@@ -39,19 +37,19 @@ public class AdjacencyList1 {
 	 * constructs a graph from a file
 	 * @param filepath String representing the absolute file path of a graph
 	 */
-	public AdjacencyList1(String filepath) throws FileNotFoundException {
+	public AdjacencyList(String filepath) throws FileNotFoundException {
 		adj = new HashMap<String, LinkedList<String>>();
 		File f = new File(filepath);
 		Scanner s = new Scanner(f);
 		String l1, n1, n2;
-		V = s.nextInt();//first line of the file contains the number of vertices
+		V = s.nextInt();
 		s.nextLine();
-		//each line holds a pair of vertices
+		
 		while(s.hasNextLine()) {
 			l1 = s.nextLine();
 			Scanner s2 = new Scanner(l1); 
-			n1 = s2.next();//vertex starting point with an edge pointing to n2
-			n2 = s2.next();//second vertex
+			n1 = s2.next();
+			n2 = s2.next();
 			addNode(n1);
 			addNode(n2);
 			addEdge(n1, n2);
@@ -59,6 +57,7 @@ public class AdjacencyList1 {
 		}
 		s.close();
 	}
+	
 	/**
 	 * 
 	 * @param node String representing the vertex to add
@@ -91,44 +90,9 @@ public class AdjacencyList1 {
 	 * @return an integer representing the number of edges that start at the sent in vertex
 	 */
 	public int getOutDegree(String node) {
-		if(adj.get(node) == null) {
-			return 0;
-		}
-		return adj.get(node).size();
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-
-//	public int diameter()
-//	{
-//		// TODO
-//		int i, j;
-//		int k;
-//		int through_k;
-//		
-//		for(k = 1; k <= adj.size(); k++)
-//			for(i = 1; i <= adj.size(); i++)
-//				for(j = 1; j <= adj.size(); j++)
-//					through_k = adj.get("weight from i to k") + adj.get("weight from k to j");
-//					if(through_k < adj.get("weight from i to j");
-//						adj.get(("weight from i to j")) = through_k;
-//		return 0;
-//	}
-
-
-	/**
-	 * 
-	 * @param v
-	 * @return
-	 */
-	public int centrality(String v)
-	{
-		// TODO
+		if(adj.get(node) == null)	return 0;
 		
-		return 0;
+		return adj.get(node).size();
 	}
 	
 	/**

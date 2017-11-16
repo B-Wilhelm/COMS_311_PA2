@@ -7,8 +7,8 @@ import java.util.Scanner;
 import java.util.Set;
 
 /**
+ * @author Harrison Zey
  * @author Brett Wilhelm
- * @author Harry Zey
  */
 
 public class AdjacencyList {
@@ -58,21 +58,21 @@ public class AdjacencyList {
 	
 	/**
 	 * 
+	 * @param from
+	 * @param to
+	 */
+	public void addEdge(String from, String to) {
+		adj.get(from).add(to);	
+	}
+	
+	/**
+	 * 
 	 * @param node
 	 * @return
 	 */
 	public boolean addNode(String node) {
 		 if(adj.putIfAbsent(node, new LinkedList<String>()) == null) { return true; }
 		 else { return false; }
-	}
-	
-	/**
-	 * 
-	 * @param from
-	 * @param to
-	 */
-	public void addEdge(String from, String to) {
-		adj.get(from).add(to);	
 	}
 	
 	/**

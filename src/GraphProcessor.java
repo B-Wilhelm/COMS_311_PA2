@@ -1,19 +1,20 @@
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Scanner;
+
 
 /**
- * @author Brett Wilhelm
  * @author Harrison Zey
+ * @author Brett Wilhelm
  */
 
 public class GraphProcessor {
-	private AdjacencyList graph;
-	private Map<String, Boolean> mapOfTraveled, mapOfUndiscovered;
+	public AdjacencyList graph;
+	private Map<String, Boolean> visited, unvisited;
 	private LinkedList<String> listOfNeighbors;
 	private ArrayList<String> path = new ArrayList<String>();
 	private Iterator<String> iter;
@@ -26,12 +27,12 @@ public class GraphProcessor {
 	 */
 	public GraphProcessor(String graphData) throws FileNotFoundException {
 		graph = new AdjacencyList(graphData);
-		mapOfTraveled = new HashMap<String, Boolean>();
+		visited = new HashMap<String, Boolean>();
 		
-		for(String key: graph.getKeys()) { mapOfTraveled.put(key, false); }
+		for(String key: graph.getKeys()) { visited.put(key, false); }
 		
-		mapOfUndiscovered = new HashMap<String, Boolean>();
-		mapOfUndiscovered.putAll(mapOfTraveled);
+		unvisited = new HashMap<String, Boolean>();
+		unvisited.putAll(visited);
 	}
 	
 	/**
@@ -122,7 +123,7 @@ public class GraphProcessor {
 	 * 
 	 * @param v
 	 */
-	private void setTraveled(String v) { mapOfTraveled.replace(v, true); }
+	private void setTraveled(String v) { visited.replace(v, true); }
 	
 	/**
 	 * 
@@ -131,8 +132,8 @@ public class GraphProcessor {
 	 * @return
 	 */
 	private String BFSUtil(String u, String v) {
-		mapOfTraveled.clear();
-		mapOfTraveled.putAll(mapOfUndiscovered);
+		visited.clear();
+		visited.putAll(unvisited);
 		LinkedList<Node> queue = new LinkedList<Node>();
 		LinkedList<String> emptyList = new LinkedList<String>();
 		setTraveled(u);
@@ -151,7 +152,7 @@ public class GraphProcessor {
 			
 			while(iter.hasNext()) {
 				String curUrl = iter.next();
-				if(!(mapOfTraveled.get(curUrl))) {
+				if(!(visited.get(curUrl))) {
 					setTraveled(curUrl);
 					queue.add(new Node(curUrl, cur.getTotUrl() + " " + curUrl));
 				}
@@ -182,10 +183,4 @@ public class GraphProcessor {
 			return totalUrl;
 		}
 	}
-	
 }
-
-
-
-
-

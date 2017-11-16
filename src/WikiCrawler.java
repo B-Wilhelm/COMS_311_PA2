@@ -15,33 +15,34 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Brett Wilhelm
  * @author Harrison Zey
+ * @author Brett Wilhelm
  */
 
 public class WikiCrawler {
 	static final String BASE_URL = "https://en.wikipedia.org";
 	private String seedUrl, filename, curUrl;
 	private int counter, max, requestCount = 0;
-	private static final String CONTAINS_CHECK = "/wiki/";
 	private static final String[] NOT_CONTAINED = {":", "#"};
+	private static final String CONTAINS_CHECK = "/wiki/";
 	private Queue<String> queue;
-	private Map<String, Boolean> isTraveled;
+	private Map<String, Boolean> visited;
 	private boolean toggleCounter;
 	private AdjacencyList graph;
 	private ArrayList<String> seedConnectionList, outputList, topics;
 	
 	/**
-	 * Constructor
-	 * @param seedURL String representing relative address of the Seed URL
-	 * @param max Integer primitive representing the max number of pages to crawl
-	 * @param filename String representing the name of the file that the graph will be written to
+	 * 
+	 * @param seedUrl
+	 * @param max
+	 * @param topics
+	 * @param fileName
 	 */
-	public WikiCrawler(String seedUrl, int max, ArrayList<String> topics, String filename) {
+	public WikiCrawler(String seedUrl, int max, ArrayList<String> topics, String fileName) {
 		this.seedUrl = seedUrl;
 		this.max = max;
 		this.topics = topics;
-		this.filename = filename;
+		this.filename = fileName;
 		
 		seedConnectionList = new ArrayList<String>();
 		seedConnectionList.add(seedUrl);
@@ -49,76 +50,20 @@ public class WikiCrawler {
 	}
 	
 	/**
-	 * Initiates the bfs that fills the graph with data from all wiki pages
+	 * 
 	 */
 	public void crawl() {
 		toggleCounter = false;
 		counter = 1;
 		bfs(seedUrl);
-		writeToFile(getPrintData());
+		writeToFile(printData());
 		
 	}
 	
-	//////////////////////////////////////////////////////////////////////////////////////////////
-	
 	/**
-	 * Sets the value of a key in the isTraveled map to true
-	 * @param v String that represents the key in the isTraveled Map
-	 */
-	private void setIsTraveled(String v) {
-		isTraveled.replace(v, true);
-	}
-	
-	
-	/**
-	 * Uses bfsearch to add links from wiki pages to a graph
-	 * @param url String that represents the URL of the first link that you send in to the constructor
-	 */
-	private void bfs(String url) {
-		ArrayList<String> strList;
-		LinkedList<String> neighbours;
-		queue = new LinkedList<String>();
-		isTraveled = new HashMap<String, Boolean>();
-		Iterator<String> iter;
-		outputList = new ArrayList<String>();
-		
-		graph.addNode(url);
-		setIsTraveled(url);
-		queue.add(url);
-		
-		while(queue.size() != 0) {
-			curUrl = queue.remove();
-			graph.addNode(curUrl);
-			strList = extractLinks(getPageSource(curUrl));
-			
-			for(int i = 0; i < strList.size(); i++) {
-				graph.addNode(strList.get(i));
-				graph.addEdge(curUrl, strList.get(i));
-				isTraveled.putIfAbsent(strList.get(i), false);
-				String dupe = curUrl + "\t" + strList.get(i);
-				if(!outputList.contains(dupe))
-					outputList.add(dupe);
-			}
-			
-			neighbours = graph.getNeighbors(curUrl);
-			iter = neighbours.listIterator();
-			
-			while(iter.hasNext()) {
-				String cur = iter.next();
-				
-				if(!(isTraveled.get(cur))) {
-					setIsTraveled(cur);
-					queue.add(cur);
-				}
-			}
-		}
-	}
-	
-	/**
-	 * Finds links in webpage source code, checks them for validity and returns them
-	 * @param doc Represents the source code of a webpage
-	 * @param url Represents the url given to the constructor
-	 * @return The list of valid links found on a page
+	 * 
+	 * @param doc
+	 * @return
 	 */
 	public ArrayList<String> extractLinks(String doc) {
 		
@@ -173,12 +118,67 @@ public class WikiCrawler {
 		return (totalConnectionList);
 	}
 	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	
 	/**
-	 * Returns the source code of a webpage
-	 * @param urlS Relative URL of the wiki page that needs to have its source code grabbed
-	 * @return String that contains the page's full source code
+	 * 
+	 * @param v
 	 */
-	public String getPageSource(String urlS) {
+	private void setVisited(String v) {
+		visited.replace(v, true);
+	}
+	
+	
+	/**
+	 * 
+	 * @param url
+	 */
+	private void bfs(String url) {
+		ArrayList<String> strList;
+		LinkedList<String> neighbours;
+		queue = new LinkedList<String>();
+		visited = new HashMap<String, Boolean>();
+		Iterator<String> iter;
+		outputList = new ArrayList<String>();
+		
+		graph.addNode(url);
+		setVisited(url);
+		queue.add(url);
+		
+		while(queue.size() != 0) {
+			curUrl = queue.remove();
+			graph.addNode(curUrl);
+			strList = extractLinks(pageSource(curUrl));
+			
+			for(int i = 0; i < strList.size(); i++) {
+				graph.addNode(strList.get(i));
+				graph.addEdge(curUrl, strList.get(i));
+				visited.putIfAbsent(strList.get(i), false);
+				String dupe = curUrl + "\t" + strList.get(i);
+				if(!outputList.contains(dupe))
+					outputList.add(dupe);
+			}
+			
+			neighbours = graph.getNeighbors(curUrl);
+			iter = neighbours.listIterator();
+			
+			while(iter.hasNext()) {
+				String cur = iter.next();
+				
+				if(!(visited.get(cur))) {
+					setVisited(cur);
+					queue.add(cur);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param newUrl
+	 * @return
+	 */
+	private String pageSource(String newUrl) {
 		String progSource = "";
 		URL url;
 	    InputStream input = null;
@@ -191,16 +191,14 @@ public class WikiCrawler {
 	    		TimeUnit.SECONDS.sleep(3);
 	    	}
 	    	
-	        url = new URL(BASE_URL + urlS);	        
+	        url = new URL(BASE_URL + newUrl);	        
 	        input = url.openStream();
 	        requestCount++;
 	        br = new BufferedReader(new InputStreamReader(input));
-	        if ((line = br.readLine()) != null) {
-	        	progSource += line;
-	        }
-	        while ((line = br.readLine()) != null) {
-	            progSource += "\n" + line;
-	        }
+	        
+	        if ((line = br.readLine()) != null) { progSource += line; }
+	        while ((line = br.readLine()) != null) { progSource += "\n" + line; }
+	        
 	        return progSource;
 	        
 	    }
@@ -220,7 +218,7 @@ public class WikiCrawler {
 	 * 
 	 * @param data
 	 */
-	public void writeToFile(String data) {
+	private void writeToFile(String data) {
 		try {
 		    PrintWriter writer = new PrintWriter(filename, "UTF-8");
 		    writer.print(data);
@@ -232,14 +230,13 @@ public class WikiCrawler {
 	 * 
 	 * @return
 	 */
-	public String getPrintData() {
+	private String printData() {
 		String data = max + "\n";
 		
 		for(int i = 0; i < outputList.size(); i++) {
 			data += outputList.get(i);
 			if(i < outputList.size()-1)	data += "\n";
 		}
-		
 		return data;
 	}
 }

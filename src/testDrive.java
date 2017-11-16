@@ -10,34 +10,32 @@ public class testDrive {
 //		topics.add("Cyclones");
 //		topics.add("geynfdskjfsdf");
 		
-		WikiCrawler wc = new WikiCrawler("/wiki/Iowa_State_University", 20, topics, "test.txt");
+		WikiCrawler wc = new WikiCrawler("/wiki/Computer_Science", 2, topics, "WikiCS.txt");
 		
 		time_start = System.nanoTime();
 		wc.crawl();
 		time = System.nanoTime()-time_start;
 		
-		GraphProcessor gp = new GraphProcessor("test.txt");
+		GraphProcessor gp = new GraphProcessor("WikiCS.txt");
 		
-		System.out.print(wc.getPrintData());
-		System.out.println("Time taken to execute crawl(): " + properFormat(time));
-		System.out.println("Diameter: " + gp.diameter());
-		System.out.println("Centrality: " + gp.centrality("/wiki/Iowa"));
-//		System.out.println("OutDegree: " + gp.outDegree("/wiki/Story_County,_Iowa"));
-//		System.out.println("BFSPath: " + gp.bfsPath("/wiki/Story_County,_Iowa","/wiki/Model_farm"));
+		maxOutDegree(gp);
+	}
+	
+	private static int maxOutDegree(GraphProcessor gp) {
+		String[] urlArr = new String[gp.graph.size()];
+		urlArr = gp.graph.getKeys().toArray(new String[0]);
 		
-//		System.out.println(wc.extractLinks(wc.getPageSource(wc.getSource())));
+		System.out.println(gp.diameter());
 		
-//		ArrayList<String> boi = wc.extractLinks(wc.getPageSource(wc.getSource()));
+		for(int i = 0; i < urlArr.length; i++) {
+			System.out.println("OutDegree " + urlArr[i] + ": " + gp.outDegree(urlArr[i]));
+		}
 		
-//		System.out.println("\nExtractLinks() Output:");
-//		for(int i = 0; i < boi.size(); i++) {
-//			System.out.println(boi.get(i));
-//		}
+		for(int i = 0; i < urlArr.length; i++) {
+			System.out.println("Centrality " + urlArr[i] + ": " + gp.centrality(urlArr[i]));
+		}
 		
-//		System.out.println("\nseedList() Output:");
-//		for(int i = 0; i < wc.seedConnectionList.size(); i++) {
-//			System.out.println(wc.seedConnectionList.get(i));
-//		}
+		return 0;
 	}
 	
 	private static String properFormat(long time) {

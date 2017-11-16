@@ -116,8 +116,7 @@ public class GraphProcessor1 {
 	 * 
 	 * @return
 	 */
-	public int diameter()
-	{
+	public int diameter() {
 		int i, k;
 		int diameter;
 		
@@ -127,8 +126,10 @@ public class GraphProcessor1 {
 		//System.out.println(graph.get(0));
 		return 0;
 	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	public class Node{
+	public class Node {
 		String totalUrl;
 		String url;
 		public Node(String u, String tot){

@@ -54,7 +54,7 @@ public class GraphProcessor1 {
 	public ArrayList<String> bfsPath(String u, String v) {
 		BFS  = "";
 		path = new ArrayList<String>();	
-		BFSUtil(u);
+		BFS = BFSUtil(u, v);
 		Scanner s = new Scanner(BFS);
 		
 		while(s.hasNext()) {
@@ -84,28 +84,32 @@ public class GraphProcessor1 {
 	/**
 	 * computes the Breadth first traversal of graph sets the String BFS with the path from u
 	 * @param u String representing the starting vertex
+	 * @return 
 	 */
-	private void BFSUtil(String u) {
+	private String BFSUtil(String u, String v) {
 		isTraveled.clear();
 		isTraveled.putAll(undiscovered);
-		LinkedList<String> queue = new LinkedList<String>();
+		LinkedList<Node> queue = new LinkedList<Node>();
 		setIsTraveled(u);
-		queue.add(u);
+		queue.add(new Node(u, u));
 		
 		while(queue.size() != 0) {
-			String cur = queue.removeFirst();
-			BFS += cur + " ";
-			System.out.println(BFS+ "\n");
+			Node cur = queue.removeFirst();
+			if(cur.url.equals(v))
+				return cur.totalUrl;
 			
-			neighbors = graph.getNeighbors(cur);
+			neighbors = graph.getNeighbors(cur.getUrl());
 			it = neighbors.iterator();
+			
 			while(it.hasNext()) {
-				cur = it.next();
-				if(isTraveled.get(cur) == false) {
-					queue.addLast(cur);
+				String curUrl = it.next();
+				if(!(isTraveled.get(curUrl))) {
+					setIsTraveled(curUrl);
+					queue.add(new Node(curUrl, cur.getTotUrl() + " " + curUrl));
 				}
 			}
 		}
+		return "";
 	}
 	
 	/**
@@ -120,19 +124,30 @@ public class GraphProcessor1 {
 		//for(k = 1; k <= graph.size(); k++)
 			//for(i = 1; i <= graph.size(); i++)
 				//bfsPath(graph.get(k), graph.get(i));
-		System.out.println(graph.get(0));
+		//System.out.println(graph.get(0));
 		return 0;
 	}
+
+	public class Node{
+		String totalUrl;
+		String url;
+		public Node(String u, String tot){
+			url = u;
+			totalUrl = tot;
+		}
 		
-	//Strongly Connected Component helper methods
-	/**
-	 * 
-	 * @param g AdjacencyList Representing the Graph
-	 * @param v String representing the vertex currently being processed
-	 * @param visited table used to determine whether or not a vertex has been traveled to 
-	 */
+		public String getUrl() {
+			return url;
+		}
+		
+		public String getTotUrl() {
+			return totalUrl;
+		}
+	}
 	
 }//end of graphProcessor
+
+
 
 
 

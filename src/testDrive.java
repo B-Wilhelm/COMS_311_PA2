@@ -6,15 +6,16 @@ public class testDrive {
 	public static void main(String[] args) throws IOException {
 		long time_start, time;
 		ArrayList<String> topics = new ArrayList<String> ();
-		topics.add("Iowa State");
-		topics.add("Cyclones");
+		//topics.add("Iowa State");
+		//topics.add("Cyclones");
 //		topics.add("geynfdskjfsdf");
 		
 		WikiCrawler1 wc = new WikiCrawler1("/wiki/Iowa_State_University", 20, topics, "test.txt");
 		GraphProcessor1 gp = new GraphProcessor1("test.txt");
 		
 		System.out.println("hi");
-		System.out.println("[" + gp.bfsPath("/wiki/Iowa_State_University","/wiki/Flagship") + "]");
+		System.out.println(gp.bfsPath("/wiki/Story_County,_Iowa","/wiki/Model_farm"));
+		System.out.println(gp.outDegree("/wiki/Story_County,_Iowa"));
 		
 		time_start = System.nanoTime();
 		wc.crawl();

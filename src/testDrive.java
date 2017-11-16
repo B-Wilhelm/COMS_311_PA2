@@ -22,8 +22,8 @@ public class testDrive {
 		System.out.println("Time taken to execute crawl(): " + properFormat(time));
 		System.out.println("Diameter: " + gp.diameter());
 		System.out.println("Centrality: " + gp.centrality("/wiki/Iowa"));
-		System.out.println("OutDegree: " + gp.outDegree("/wiki/Story_County,_Iowa"));
-		System.out.println("BFSPath: " + gp.bfsPath("/wiki/Story_County,_Iowa","/wiki/Model_farm"));
+//		System.out.println("OutDegree: " + gp.outDegree("/wiki/Story_County,_Iowa"));
+//		System.out.println("BFSPath: " + gp.bfsPath("/wiki/Story_County,_Iowa","/wiki/Model_farm"));
 		
 //		System.out.println(wc.extractLinks(wc.getPageSource(wc.getSource())));
 		

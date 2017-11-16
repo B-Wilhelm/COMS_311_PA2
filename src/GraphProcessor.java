@@ -67,6 +67,59 @@ public class GraphProcessor {
 	
 	/**
 	 * 
+	 * @return
+	 */
+	public int diameter() {
+		ArrayList<String> curPathName;
+		String[] urlArr = new String[graph.size()];
+		int i, k, diameter, maxDiameter = 0;
+		
+		urlArr = graph.getKeys().toArray(new String[0]);
+		
+		for(k = 0; k < urlArr.length; k++) {
+			for(i = 0; i < urlArr.length; i++) {
+				if (k != i) {
+					curPathName = bfsPath(urlArr[k], urlArr[i]);
+					diameter = curPathName.size();
+					if (diameter > maxDiameter)
+						maxDiameter = diameter;
+				}
+			}
+		}
+		return maxDiameter;
+	}
+	
+	/**
+	 * 
+	 * @param v
+	 * @return
+	 */
+	public int centrality(String v)
+	{
+		int i, j, k, centrality = 0;
+		ArrayList<String> curPathName;
+		String[] urlArr = new String[graph.size()];
+		
+		urlArr = graph.getKeys().toArray(new String[0]);
+		
+		for(k = 0; k < urlArr.length; k++) {
+			for(i = 0; i < urlArr.length; i++) {
+				if (k != i) {
+					curPathName = bfsPath(urlArr[k], urlArr[i]);
+					if(curPathName.size() > 2) {
+						for(j = 1; j < curPathName.size() - 1; j++)
+							if(v.equals(curPathName.get(j)))
+								centrality++;
+					}
+				}
+			}
+		}
+		
+		return centrality;
+	}
+	
+	/**
+	 * 
 	 * @param v
 	 */
 	private void setTraveled(String v) { mapOfTraveled.replace(v, true); }
@@ -105,60 +158,6 @@ public class GraphProcessor {
 			}
 		}
 		return "";
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public int diameter() {
-		int i, k, diameter, maxDiameter = 0;
-		ArrayList<String> curPathName;
-		String[] urlArr = new String[graph.size()];
-		
-		urlArr = graph.getKeys().toArray(new String[0]);
-		
-		for(k = 0; k < urlArr.length; k++) {
-			for(i = 0; i < urlArr.length; i++) {
-				if (k != i) {
-					curPathName = bfsPath(urlArr[k], urlArr[i]);
-					diameter = curPathName.size();
-					if (diameter > maxDiameter)
-						maxDiameter = diameter;
-				}
-			}
-		}
-		
-		return maxDiameter;
-	}
-	
-	/**
-	 * 
-	 * @param v
-	 * @return
-	 */
-	public int centrality(String v)
-	{
-		int i, j, k, centrality = 0;
-		ArrayList<String> curPathName;
-		String[] urlArr = new String[graph.size()];
-		
-		urlArr = graph.getKeys().toArray(new String[0]);
-		
-		for(k = 0; k < urlArr.length; k++) {
-			for(i = 0; i < urlArr.length; i++) {
-				if (k != i) {
-					curPathName = bfsPath(urlArr[k], urlArr[i]);
-					if(curPathName.size() > 2) {
-						for(j = 1; j < curPathName.size() - 1; j++)
-							if(v.equals(curPathName.get(j)))
-								centrality++;
-					}
-				}
-			}
-		}
-		
-		return centrality;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

@@ -7,22 +7,18 @@ import java.util.Scanner;
 import java.util.Set;
 
 /**
- * 
  * @author Brett Wilhelm
  * @author Harry Zey
- *
  */
 
 public class AdjacencyList {
 	private Map<String, LinkedList<String>> adj;
-	private final int V;
+	private final int v;
 	
 	/**
-	 * Default Constructor unused
+	 * Default Constructor
 	 */
-	public AdjacencyList() {
-		V = 0;
-	}
+	public AdjacencyList() { v = 0; }
 	
 	/**
 	 * Creates a graph with max number of vertices v
@@ -30,19 +26,20 @@ public class AdjacencyList {
 	 */
 	public AdjacencyList(int v) {
 		adj = new HashMap<String, LinkedList<String>>();
-		V = v;
+		this.v = v;
 	}
 	
 	/**
 	 * constructs a graph from a file
-	 * @param filepath String representing the absolute file path of a graph
+	 * @param fp String representing the absolute file path of a graph
 	 */
-	public AdjacencyList(String filepath) throws FileNotFoundException {
-		adj = new HashMap<String, LinkedList<String>>();
-		File f = new File(filepath);
+	public AdjacencyList(String fp) throws FileNotFoundException {
+		File f = new File(fp);
 		Scanner s = new Scanner(f);
 		String l1, n1, n2;
-		V = s.nextInt();
+		adj = new HashMap<String, LinkedList<String>>();
+		v = s.nextInt();
+		
 		s.nextLine();
 		
 		while(s.hasNextLine()) {
@@ -99,7 +96,7 @@ public class AdjacencyList {
 	 * 
 	 * @return returns the max number of vertices in the graph
 	 */
-	public int getMaxVertices() { return V; }
+	public int getMaxVertices() { return v; }
 	
 	/**
 	 * 

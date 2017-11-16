@@ -11,21 +11,19 @@ public class testDrive {
 		topics.add("geynfdskjfsdf");
 		
 		WikiCrawler wc = new WikiCrawler("/wiki/Iowa_State_University", 20, topics, "test.txt");
-		GraphProcessor gp = new GraphProcessor("test.txt");
-		
-//		System.out.println(gp.bfsPath("/wiki/Story_County,_Iowa","/wiki/Model_farm"));
-//		System.out.println(gp.outDegree("/wiki/Story_County,_Iowa"));
 		
 		time_start = System.nanoTime();
 		wc.crawl();
-		time = System.nanoTime() - time_start;
+		time = System.nanoTime()-time_start;
 		
+		GraphProcessor gp = new GraphProcessor("test.txt");
+		
+		System.out.print(wc.getPrintData());
 		System.out.println("Time taken to execute crawl(): " + properFormat(time));
-		
-		System.out.println(wc.getPrintData());
-		
 		System.out.println("Diameter: " + gp.diameter());
 		System.out.println("Centrality: " + gp.centrality("/wiki/Iowa"));
+		System.out.println("OutDegree: " + gp.outDegree("/wiki/Story_County,_Iowa"));
+		System.out.println("BFSPath: " + gp.bfsPath("/wiki/Story_County,_Iowa","/wiki/Model_farm"));
 		
 //		System.out.println(wc.extractLinks(wc.getPageSource(wc.getSource())));
 		

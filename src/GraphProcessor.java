@@ -16,10 +16,10 @@ import java.util.Scanner;
 public class GraphProcessor {
 	private AdjacencyList graph;
 	private Map<String, Boolean> mapOfTraveled, mapOfUndiscovered;
-	private LinkedList<String> neighbors;
+	private LinkedList<String> listOfNeighbors;
 	private ArrayList<String> path = new ArrayList<String>();
-	private Iterator<String> it;
-	private String BFS = "";
+	private Iterator<String> iter;
+	private String bfs = "";
 	
 	/**
 	 * Creates a graph using a given filename
@@ -30,9 +30,8 @@ public class GraphProcessor {
 		graph = new AdjacencyList(graphData);
 		mapOfTraveled = new HashMap<String, Boolean>();
 		
-		for(String key : graph.getKeys()) {
-			mapOfTraveled.put(key, false);
-		}
+		for(String key: graph.getKeys()) { mapOfTraveled.put(key, false); }
+		
 		mapOfUndiscovered = new HashMap<String, Boolean>();
 		mapOfUndiscovered.putAll(mapOfTraveled);
 	}
@@ -41,9 +40,7 @@ public class GraphProcessor {
 	 * @param v String holding the vertex 
 	 * @return Returns the number of edges originating from the given vertex
 	 */
-	public int outDegree(String v) {
-		return graph.getOutDegree(v);
-	}
+	public int outDegree(String v) { return graph.getOutDegree(v); }
 	
 	/**
 	 * 
@@ -52,10 +49,9 @@ public class GraphProcessor {
 	 * @return if a path between u and v exists return an ArrayList<String> containing all the nodes on a DFS
 	 */
 	public ArrayList<String> bfsPath(String u, String v) {
-		BFS  = "";
+		bfs = BFSUtil(u,v);
 		path = new ArrayList<String>();	
-		BFS = BFSUtil(u, v);
-		Scanner s = new Scanner(BFS);
+		Scanner s = new Scanner(bfs);
 		
 		while(s.hasNext()) {
 			String cur = s.next();
@@ -66,29 +62,28 @@ public class GraphProcessor {
 			}
 		}
 		s.close();
+		
 		return new ArrayList<String>();
 	}
 	
-	//private helper methods used
 	/**
-	 * sets the table isTraveled at v and sets the value to true
-	 * @param v vertex
+	 * 
+	 * @param v
 	 */
-	private void setIsTraveled(String v) {
-		mapOfTraveled.replace(v, true);
-	}
+	private void setTraveled(String v) { mapOfTraveled.replace(v, true); }
 	
-	//shortest path helper methods
 	/**
-	 * computes the Breadth first traversal of graph sets the String BFS with the path from u
-	 * @param u String representing the starting vertex
-	 * @return 
+	 * 
+	 * @param u
+	 * @param v
+	 * @return
 	 */
 	private String BFSUtil(String u, String v) {
 		mapOfTraveled.clear();
 		mapOfTraveled.putAll(mapOfUndiscovered);
 		LinkedList<Node> queue = new LinkedList<Node>();
-		setIsTraveled(u);
+		LinkedList<String> emptyList = new LinkedList<String>();
+		setTraveled(u);
 		queue.add(new Node(u, u));
 		
 		while(queue.size() != 0) {
@@ -96,13 +91,16 @@ public class GraphProcessor {
 			if(cur.url.equals(v))
 				return cur.totalUrl;
 			
-			neighbors = graph.getNeighbors(cur.getUrl());
-			it = neighbors.iterator();
+			listOfNeighbors = graph.getNeighbors(cur.getUrl());
 			
-			while(it.hasNext()) {
-				String curUrl = it.next();
+			if(listOfNeighbors == null) listOfNeighbors = emptyList;
+			
+			iter = listOfNeighbors.iterator();
+			
+			while(iter.hasNext()) {
+				String curUrl = iter.next();
 				if(!(mapOfTraveled.get(curUrl))) {
-					setIsTraveled(curUrl);
+					setTraveled(curUrl);
 					queue.add(new Node(curUrl, cur.getTotUrl() + " " + curUrl));
 				}
 			}

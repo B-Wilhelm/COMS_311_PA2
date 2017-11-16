@@ -21,29 +21,27 @@ import java.util.concurrent.TimeUnit;
 
 public class WikiCrawler {
 	static final String BASE_URL = "https://en.wikipedia.org";
-	private String seedUrl, fileName, curUrl;
-	private int max;
+	private String seedUrl, filename, curUrl;
+	private int counter, max, requestCount = 0;
 	private static final String CONTAINS_CHECK = "/wiki/";
 	private static final String[] NOT_CONTAINED = {":", "#"};
-	private Queue<String> queue;	//needed for BFS change name from test
-	private int counter;
+	private Queue<String> queue;
 	private Map<String, Boolean> isTraveled;
-	public ArrayList<String> seedConnectionList, printList, topics;
-	private int requestCount = 0;
 	private boolean toggleCounter;
-	private AdjacencyList graph; // the graph our crawler will create
+	private AdjacencyList graph;
+	private ArrayList<String> seedConnectionList, outputList, topics;
 	
 	/**
 	 * Constructor
 	 * @param seedURL String representing relative address of the Seed URL
 	 * @param max Integer primitive representing the max number of pages to crawl
-	 * @param fileName String representing the name of the file that the graph will be written to
+	 * @param filename String representing the name of the file that the graph will be written to
 	 */
-	public WikiCrawler(String seedUrl, int max, ArrayList<String> topics, String fileName) {
+	public WikiCrawler(String seedUrl, int max, ArrayList<String> topics, String filename) {
 		this.seedUrl = seedUrl;
 		this.max = max;
 		this.topics = topics;
-		this.fileName = fileName;
+		this.filename = filename;
 		
 		seedConnectionList = new ArrayList<String>();
 		seedConnectionList.add(seedUrl);
@@ -61,7 +59,7 @@ public class WikiCrawler {
 		
 	}
 	
-	//////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * Sets the value of a key in the isTraveled map to true
@@ -82,7 +80,7 @@ public class WikiCrawler {
 		queue = new LinkedList<String>();
 		isTraveled = new HashMap<String, Boolean>();
 		Iterator<String> iter;
-		printList = new ArrayList<String>();
+		outputList = new ArrayList<String>();
 		
 		graph.addNode(url);
 		setIsTraveled(url);
@@ -98,8 +96,8 @@ public class WikiCrawler {
 				graph.addEdge(curUrl, strList.get(i));
 				isTraveled.putIfAbsent(strList.get(i), false);
 				String dupe = curUrl + "\t" + strList.get(i);
-				if(!printList.contains(dupe))
-					printList.add(dupe);
+				if(!outputList.contains(dupe))
+					outputList.add(dupe);
 			}
 			
 			neighbours = graph.getNeighbors(curUrl);
@@ -135,10 +133,6 @@ public class WikiCrawler {
 		while(s.hasNext()) {
 			input += s.next();
 		}
-
-//		if(curUrl.equals(seedUrl)) {
-//			System.out.println(curUrl + "\n\n" + input + "\n\nInput End\n");
-//		}
 		
 		for(String t: topics) {
 			if(!(input.toLowerCase().contains(t.toLowerCase()))) {
@@ -228,7 +222,7 @@ public class WikiCrawler {
 	 */
 	public void writeToFile(String data) {
 		try {
-		    PrintWriter writer = new PrintWriter(fileName, "UTF-8");
+		    PrintWriter writer = new PrintWriter(filename, "UTF-8");
 		    writer.print(data);
 		    writer.close();
 		} catch (IOException e) { }
@@ -241,11 +235,9 @@ public class WikiCrawler {
 	public String getPrintData() {
 		String data = max + "\n";
 		
-		for(int i = 0; i < printList.size(); i++) {
-			data += printList.get(i);
-			if(i < printList.size()-1) {
-				data += "\n";
-			}
+		for(int i = 0; i < outputList.size(); i++) {
+			data += outputList.get(i);
+			if(i < outputList.size()-1)	data += "\n";
 		}
 		
 		return data;

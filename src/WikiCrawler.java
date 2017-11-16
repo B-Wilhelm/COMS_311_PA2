@@ -217,8 +217,8 @@ public class WikiCrawler {
 	}
 	
 	/**
-	 * Writes the graph to a file
-	 * @param data String representing the graph to be written to the file
+	 * 
+	 * @param data
 	 */
 	public void writeToFile(String data) {
 		try {
@@ -229,8 +229,8 @@ public class WikiCrawler {
 	}
 	
 	/**
-	 * Returns String of the graph
-	 * @return String representation of the graph that will eventually be written to a file
+	 * 
+	 * @return
 	 */
 	public String getPrintData() {
 		String data = max + "\n";
@@ -241,13 +241,5 @@ public class WikiCrawler {
 		}
 		
 		return data;
-	}
-	
-	public String getSource() {
-		return seedUrl;
-	}
-	
-	public AdjacencyList getGraph() {
-		return graph;
 	}
 }

@@ -21,8 +21,8 @@ public class AdjacencyList {
 	public AdjacencyList() { v = 0; }
 	
 	/**
-	 * Creates a graph with max number of vertices v
-	 * @param v integer representing the max number of vertices
+	 * 
+	 * @param v
 	 */
 	public AdjacencyList(int v) {
 		adj = new HashMap<String, LinkedList<String>>();
@@ -30,8 +30,9 @@ public class AdjacencyList {
 	}
 	
 	/**
-	 * constructs a graph from a file
-	 * @param fp String representing the absolute file path of a graph
+	 * 
+	 * @param fp
+	 * @throws FileNotFoundException
 	 */
 	public AdjacencyList(String fp) throws FileNotFoundException {
 		File f = new File(fp);
@@ -57,8 +58,8 @@ public class AdjacencyList {
 	
 	/**
 	 * 
-	 * @param node String representing the vertex to add
-	 * @return true if vertex was new and the add was sucessful
+	 * @param node
+	 * @return
 	 */
 	public boolean addNode(String node) {
 		 if(adj.putIfAbsent(node, new LinkedList<String>()) == null) { return true; }
@@ -67,8 +68,8 @@ public class AdjacencyList {
 	
 	/**
 	 * 
-	 * @param from String representing the starting vertex of the edge
-	 * @param to String representing the vertex at the end of the edge
+	 * @param from
+	 * @param to
 	 */
 	public void addEdge(String from, String to) {
 		adj.get(from).add(to);	
@@ -76,15 +77,15 @@ public class AdjacencyList {
 	
 	/**
 	 * 
-	 * @param node the vertex in the graph it is starting from
-	 * @return returns a linked list containing all vertices node points to
+	 * @param node
+	 * @return
 	 */
 	public LinkedList<String> getNeighbors(String node) { return adj.get(node); }
 	
 	/**
 	 * 
-	 * @param node the vertex in the graph we want the outdegree of
-	 * @return an integer representing the number of edges that start at the sent in vertex
+	 * @param node
+	 * @return
 	 */
 	public int getOutDegree(String node) {
 		if(adj.get(node) == null)	return 0;
@@ -94,16 +95,20 @@ public class AdjacencyList {
 	
 	/**
 	 * 
-	 * @return returns the max number of vertices in the graph
+	 * @return
 	 */
 	public int getMaxVertices() { return v; }
 	
 	/**
 	 * 
-	 * @return a set of all String Vertices
+	 * @return
 	 */
 	public Set<String> getKeys() { return adj.keySet(); }
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int size() {
 		return adj.size();
 	}	

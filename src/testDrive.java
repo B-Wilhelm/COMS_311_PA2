@@ -6,9 +6,9 @@ public class testDrive {
 	public static void main(String[] args) throws IOException {
 		long time_start, time;
 		ArrayList<String> topics = new ArrayList<String> ();
-		topics.add("Iowa State");
-		topics.add("Cyclones");
-		topics.add("geynfdskjfsdf");
+//		topics.add("Iowa State");
+//		topics.add("Cyclones");
+//		topics.add("geynfdskjfsdf");
 		
 		WikiCrawler wc = new WikiCrawler("/wiki/Iowa_State_University", 20, topics, "test.txt");
 		

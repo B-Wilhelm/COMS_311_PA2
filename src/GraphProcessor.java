@@ -7,10 +7,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * 
  * @author Brett Wilhelm
  * @author Harrison Zey
- *
  */
 
 public class GraphProcessor {
@@ -22,9 +20,9 @@ public class GraphProcessor {
 	private String bfs = "";
 	
 	/**
-	 * Creates a graph using a given filename
-	 * @param graphData is the absolute path of the file holding the graph
-	 * @throws FileNotFoundException if the file doesn't exist at the given path
+	 * 
+	 * @param graphData
+	 * @throws FileNotFoundException
 	 */
 	public GraphProcessor(String graphData) throws FileNotFoundException {
 		graph = new AdjacencyList(graphData);
@@ -37,16 +35,17 @@ public class GraphProcessor {
 	}
 	
 	/**
-	 * @param v String holding the vertex 
-	 * @return Returns the number of edges originating from the given vertex
+	 * 
+	 * @param v
+	 * @return
 	 */
 	public int outDegree(String v) { return graph.getOutDegree(v); }
 	
 	/**
 	 * 
-	 * @param u String representing the starting node of the graph
-	 * @param v String representing the end node of our traversal
-	 * @return if a path between u and v exists return an ArrayList<String> containing all the nodes on a DFS
+	 * @param u
+	 * @param v
+	 * @return
 	 */
 	public ArrayList<String> bfsPath(String u, String v) {
 		bfs = BFSUtil(u,v);
@@ -164,6 +163,10 @@ public class GraphProcessor {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * @author Brett W
+	 * @author Harrison Zey
+	 */
 	public class Node {
 		String totalUrl;
 		String url;
